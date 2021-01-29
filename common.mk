@@ -35,7 +35,29 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/updatable_apex.mk)
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
-
+# htop
+PRODUCT_PACKAGES += \
+    htop
+# Media Google
+PRODUCT_COPY_FILES += \
+    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_audio.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_telephony.xml \
+    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video.xml
+# Overlays
+PRODUCT_PACKAGES += \
+    CarrierConfigOverlay \
+    DocumentsUIOverlay \
+    FrameworksOverlay \
+    SystemUIOverlay \
+    TelecomOverlay \
+    TelephonyOverlay \
+    SettingsOverlay \
+    WifiOverlay \
+    TetheringConfigOverlay \
+    SimpleDeviceConfigOverlay
+# Speed profile services and wifi-service to reduce RAM and storage
+PRODUCT_SYSTEM_SERVER_COMPILER_FILTER := everything 
+PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
 # Audio
 PRODUCT_PACKAGES += \
     android.hardware.audio@6.0-impl \
@@ -194,6 +216,10 @@ PRODUCT_PACKAGES += \
     ueventd.qcom.rc \
     wlan_carrier_bin.sh
 
+# Doze
+PRODUCT_PACKAGES += \
+    ParanoidDoze
+
 # IPACM
 PRODUCT_PACKAGES += \
     ipacm \
@@ -220,9 +246,9 @@ PRODUCT_PACKAGES += \
     android.hardware.light@2.0-service.sdm660
 
 # LiveDisplay
-PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.0-service-sdm \
-    vendor.lineage.livedisplay@2.0-service-sysfs
+#PRODUCT_PACKAGES += \
+#    vendor.lineage.livedisplay@2.0-service-sdm \
+#    vendor.lineage.livedisplay@2.0-service-sysfs
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -365,8 +391,8 @@ PRODUCT_PACKAGES += \
     qti_telephony_utils.xml \
     telephony-ext
 
-PRODUCT_BOOT_JARS += \
-    telephony-ext
+#PRODUCT_BOOT_JARS += \
+#    telephony-ext
 
 # Tethering
 PRODUCT_PACKAGES += \
@@ -388,8 +414,8 @@ PRODUCT_PACKAGES += \
     libtinyxml2
 
 # Trust HAL
-PRODUCT_PACKAGES += \
-    vendor.lineage.trust@1.0-service
+#PRODUCT_PACKAGES += \
+#    vendor.lineage.trust@1.0-service
 
 # USB
 PRODUCT_PACKAGES += \

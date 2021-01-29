@@ -25,9 +25,9 @@
 PLATFORM_PATH := device/motorola/sdm660-common
 
 TARGET_SPECIFIC_HEADER_PATH := $(PLATFORM_PATH)/include
-
+#TEMPORARY_DISABLE_PATH_RESTRICTIONS := true
 BOARD_VENDOR := motorola
-
+SELINUX_IGNORE_NEVERALLOWS := true
 # Platform
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
@@ -76,6 +76,7 @@ QCOM_BT_USE_BTNV := true
 # Boot Animtion
 TARGET_BOOTANIMATION_HALF_RES := true
 
+SELINUX_IGNORE_NEVERALLOWS := true
 # Camera
 USE_CAMERA_STUB := true
 TARGET_USES_QTI_CAMERA_DEVICE := true
@@ -125,7 +126,7 @@ BOARD_KERNEL_CMDLINE += sched_enable_hmp=1 sched_enable_power_aware=1
 BOARD_KERNEL_CMDLINE += androidboot.usbcontroller=a800000.dwc3
 BOARD_KERNEL_CMDLINE += loop.max_part=7
 BOARD_KERNEL_CMDLINE += androidboot.veritymode=eio
-#BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
@@ -169,10 +170,41 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
 VENDOR_SECURITY_PATCH := 2020-10-01
 
 # SELinux
-include device/qcom/sepolicy-legacy-um/SEPolicy.mk
-BOARD_VENDOR_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy/vendor
+#include device/qcom/sepolicy/SEPolicy.mk
+#BOARD_VENDOR_SEPOLICY_DIRS += $(PLATFORM_PATH)/sepolicy/vendor
 BOARD_PLAT_PRIVATE_SEPOLICY_DIR += $(PLATFORM_PATH)/sepolicy/private
-
+BOARD_SEPOLICY_DIRS += $(DEVICE_PATH)/sepolicy/vendor
+BOARD_SEPOLICY_M4DEFS += \
+    debugfs_clk=vendor_debugfs_clk \
+    debugfs_ipc=vendor_debugfs_ipc \
+    hal_keymaster_qti_exec=vendor_hal_keymaster_qti_exec \
+    hal_perf=vendor_hal_perf \
+    hal_perf_client=vendor_hal_perf_client \
+    hal_perf_default=vendor_hal_perf_default \
+    latency_device=vendor_latency_device \
+    nfc_vendor_data_file=vendor_nfc_vendor_data_file \
+    persist_audio_file=vendor_persist_audio_file \
+    persist_block_device=vendor_persist_block_device \
+    persist_sensors_file=vendor_persist_sensors_file \
+    pps_socket=vendor_pps_socket \
+    public_vendor_default_prop=vendor_public_vendor_default_prop \
+    qti_init_shell=vendor_qti_init_shell \
+    sensors_prop=vendor_sensors_prop \
+    sysfs_boot_adsp=vendor_sysfs_boot_adsp \
+    sysfs_battery_supply=vendor_sysfs_battery_supply \
+    sysfs_devfreq=vendor_sysfs_devfreq \
+    sysfs_fingerprint=vendor_sysfs_fingerprint \
+    sysfs_fps_attr=vendor_sysfs_fps_attr \
+    sysfs_graphics=vendor_sysfs_graphics \
+    sysfs_kgsl=vendor_sysfs_kgsl \
+    sysfs_scsi_host=vendor_sysfs_scsi_host \
+    sysfs_ssr=vendor_sysfs_ssr \
+    sysfs_usbpd_device=vendor_sysfs_usbpd_device \
+    sysfs_usb_supply=vendor_sysfs_usb_supply \
+    wcnss_service=vendor_wcnss_service \
+    wcnss_service_exec=vendor_wcnss_service_exec \
+    wifi_vendor_data_file=vendor_wifi_vendor_data_file \
+    thermal-engine=vendor_thermal-engine
 # Timeservice
 BOARD_USES_QC_TIME_SERVICES := true
 
